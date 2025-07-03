@@ -5,10 +5,9 @@ import 'package:flutter_health_pre_test/data/exercise_data.dart';
 
 void add_workout(BuildContext context) {
   final nameController = TextEditingController();
-  final timeController = TextEditingController();
   List<Exercise> selectedExercises = [];
   final exerciseData = ExerciseData();
-  
+
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -37,24 +36,12 @@ void add_workout(BuildContext context) {
                           decoration: const InputDecoration(
                             labelText: "Workout Name",
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(20)),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 15),
-                        // Time Field
-                        TextField(
-                          controller: timeController,
-                          keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(
-                            labelText: "Duration (minutes)",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
                             ),
                           ),
                         ),
                         const SizedBox(height: 20),
-                        // Exercise Selection
                         Row(
                           children: [
                             Text(
@@ -71,9 +58,11 @@ void add_workout(BuildContext context) {
                           child: ListView.builder(
                             itemCount: exerciseData.exercise_data.length,
                             itemBuilder: (context, index) {
-                              final exercise = exerciseData.exercise_data[index];
-                              final isSelected = selectedExercises.any((e) => e.id == exercise.id);
-                              
+                              final exercise =
+                                  exerciseData.exercise_data[index];
+                              final isSelected = selectedExercises
+                                  .any((e) => e.id == exercise.id);
+
                               return Card(
                                 child: CheckboxListTile(
                                   title: Text(exercise.name),
@@ -84,12 +73,12 @@ void add_workout(BuildContext context) {
                                         selectedExercises.add(Exercise(
                                           id: exercise.id,
                                           name: exercise.name,
-                                          type: 1, // Default type
-                                          time: 30, // Default time
-                                          level: 1, // Default level
+                                          time: 5,
+                                          level: 1,
                                         ));
                                       } else {
-                                        selectedExercises.removeWhere((e) => e.id == exercise.id);
+                                        selectedExercises.removeWhere(
+                                            (e) => e.id == exercise.id);
                                       }
                                     });
                                   },
@@ -102,7 +91,6 @@ void add_workout(BuildContext context) {
                     ),
                   ),
                 ),
-                // Add Button
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: Row(
@@ -114,14 +102,13 @@ void add_workout(BuildContext context) {
                               final workout = WorkOut(
                                 id: DateTime.now().millisecondsSinceEpoch,
                                 name: nameController.text,
-                                time: int.tryParse(timeController.text) ?? 0,
                                 exercise: selectedExercises,
                               );
                               WorkOutData().add(workout);
                               Navigator.pop(context);
                             }
                           },
-                          child: Text("Add Workout"),
+                          child: const Text("Add Workout"),
                         ),
                       ),
                     ],

@@ -49,10 +49,7 @@ class Entry extends StatefulWidget {
 class _EntryState extends State<Entry> {
   final List<Route> routes = [
     Route(route: 'workout', label: 'WorkOut', icon: Icons.add_box),
-    Route(
-        route: 'exercise',
-        label: 'Exercise',
-        icon: Icons.accessible_forward_outlined),
+    Route(route: 'exercise', label: 'Exercise', icon: Icons.fitness_center),
     Route(route: 'history', label: 'History', icon: Icons.history),
   ];
   int _currentIndex = 0;

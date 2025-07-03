@@ -12,3 +12,5 @@ Widget sheet_handle = Padding(
         color: Colors.grey, borderRadius: BorderRadius.circular(10)),
   ),
 );
+
+final double maxScreenWidth = 800;

@@ -19,7 +19,7 @@ class _ExerciseState extends State<Exercise> {
       body: Center(
         child: SafeArea(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 600),
+            constraints: const BoxConstraints(maxWidth: 800),
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -75,7 +75,7 @@ class _ExerciseState extends State<Exercise> {
                             ),
                           );
                         }
-                        
+
                         return ListView.builder(
                           itemCount: exerciseData.exercise_data.length,
                           itemBuilder: (context, index) {
@@ -104,15 +104,17 @@ class _ExerciseState extends State<Exercise> {
                                             child: const Text('Cancel'),
                                           ),
                                           TextButton(
-                                            onPressed: () => Navigator.of(context)
-                                                .pop(controller.text),
+                                            onPressed: () =>
+                                                Navigator.of(context)
+                                                    .pop(controller.text),
                                             child: const Text('OK'),
                                           ),
                                         ],
                                       );
                                     },
                                   );
-                                  if (newName != null && newName.trim().isNotEmpty) {
+                                  if (newName != null &&
+                                      newName.trim().isNotEmpty) {
                                     exerciseData.renameItem(
                                         item.id, newName.trim());
                                   }
@@ -134,8 +136,8 @@ class _ExerciseState extends State<Exercise> {
                                           ),
                                         ),
                                         IconButton(
-                                            onPressed: () =>
-                                                exerciseData.deleteItem(item.id),
+                                            onPressed: () => exerciseData
+                                                .deleteItem(item.id),
                                             icon: const Icon(
                                               Icons.delete,
                                               color: Colors.red,
