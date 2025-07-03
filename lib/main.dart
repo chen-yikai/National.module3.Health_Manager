@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_health_pre_test/screens/home_screen.dart';
-import 'package:flutter_health_pre_test/screens/task_screen.dart';
+import 'package:flutter_health_pre_test/action/add_workout.dart';
+import 'package:flutter_health_pre_test/screens/exercise_screen.dart';
+import 'package:flutter_health_pre_test/screens/history_screen.dart';
+import 'package:flutter_health_pre_test/screens/workout_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,21 +48,27 @@ class Entry extends StatefulWidget {
 
 class _EntryState extends State<Entry> {
   final List<Route> routes = [
-    Route(route: 'home', label: 'Home', icon: Icons.home),
-    Route(route: 'task', label: 'Task', icon: Icons.task),
+    Route(route: 'workout', label: 'WorkOut', icon: Icons.add_box),
+    Route(
+        route: 'exercise',
+        label: 'Exercise',
+        icon: Icons.accessible_forward_outlined),
+    Route(route: 'history', label: 'History', icon: Icons.history),
   ];
   int _currentIndex = 0;
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
-  final List<String> _routeStack = ['home'];
+  final List<String> _routeStack = ['workout'];
 
   Widget _buildPage(String route) {
     switch (route) {
-      case 'home':
-        return const HomeScreen();
-      case 'task':
-        return const TaskScreen();
+      case 'workout':
+        return const WorkOutScreen();
+      case 'exercise':
+        return const Exercise();
+      case 'history':
+        return const HistoryScreen();
       default:
-        return const Center(child: Text('Unknown Page'));
+        return const Center(child: Text('404'));
     }
   }
 
@@ -92,6 +100,13 @@ class _EntryState extends State<Entry> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            add_workout(context);
+          },
+          label: Text("New Workout"),
+          icon: Icon(Icons.add),
+        ),
         body: Row(
           children: [
             NavigationRail(
