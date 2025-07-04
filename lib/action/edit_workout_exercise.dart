@@ -59,7 +59,7 @@ void edit_workout_exercise(
               FilledButton(
                 onPressed: () {
                   if (nameController.text.isNotEmpty) {
-                    workOut!.exercise[index] = Exercise(
+                    workOut.exercise[index] = Exercise(
                       id: exercise.id,
                       name: nameController.text.trim(),
                       time: int.tryParse(timeController.text) ?? exercise.time,

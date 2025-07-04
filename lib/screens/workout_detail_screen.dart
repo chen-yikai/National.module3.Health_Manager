@@ -64,7 +64,7 @@ class _WorkOutDetailScreenState extends State<WorkOutDetailScreen> {
               children: [
                 FloatingActionButton.extended(
                   onPressed: () {
-                    add_current_workout_exercise(context, widget.id);
+                    addCurrentWorkoutExercise(context, widget.id);
                   },
                   icon: const Icon(Icons.add),
                   label: const Text("Add Item"),
@@ -307,7 +307,7 @@ class _WorkOutDetailScreenState extends State<WorkOutDetailScreen> {
                                           confirmDismiss: (direction) async {
                                             if (direction ==
                                                 DismissDirection.startToEnd) {
-                                              add_current_workout_exercise(context, widget.id, exercise: exercise, exerciseIndex: index);
+                                              addCurrentWorkoutExercise(context, widget.id, exercise: exercise, exerciseIndex: index);
                                               return false;
                                             } else if (direction ==
                                                 DismissDirection.endToStart) {

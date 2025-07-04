@@ -18,7 +18,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          add_exercise(context);
+          addExercise(context);
         },
         label: const Text("Add Exercise"),
         icon: const Icon(Icons.run_circle_outlined),

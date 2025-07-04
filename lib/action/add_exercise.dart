@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_health_pre_test/data/exercise_data.dart';
 import 'package:flutter_health_pre_test/data/share.dart';
 
-void add_exercise(BuildContext context) {
+void addExercise(BuildContext context) {
   final nameController = TextEditingController();
 
   showModalBottomSheet(
@@ -10,11 +10,11 @@ void add_exercise(BuildContext context) {
       builder: (context) {
         return StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
-          return Container(
+          return SizedBox(
             width: double.infinity,
             child: Column(
               children: [
-                sheet_handle,
+                sheetHandle,
                 Text("New Exercise", style: titleStyle),
                 const SizedBox(height: 20),
                 Padding(

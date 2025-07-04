@@ -51,7 +51,7 @@ class _ExternalStopwatchFabState extends State<ExternalStopwatchFab> {
                           WorkOutData().pauseStopWatch();
                         } else {
                           if (widget.isRoot && !WorkOutData().timerActive) {
-                            add_workout(context);
+                            addWorkout(context);
                           } else {
                             if (!HistoryData().current_history_init) {
                               HistoryData().current_history_init = true;

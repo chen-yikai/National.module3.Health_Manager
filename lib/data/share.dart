@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-final TextStyle titleStyle =
-    const TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+const TextStyle titleStyle =
+    TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
-Widget sheet_handle = Padding(
+Widget sheetHandle = Padding(
   padding: const EdgeInsets.all(10),
   child: Container(
     width: 70,
@@ -13,7 +13,7 @@ Widget sheet_handle = Padding(
   ),
 );
 
-final double maxScreenWidth = 800;
+const double maxScreenWidth = 800;
 
 String timeFormatter(int seconds) {
   final mm = seconds ~/ 60;
@@ -21,4 +21,4 @@ String timeFormatter(int seconds) {
   return "${mm.toString().padLeft(2, '0')}:${ss.toString().padLeft(2, '0')}";
 }
 
-const method_channel_name = "com.example.flutter_health_pre_test/method";
+const String methodChannelName = "com.example.flutter_health_pre_test/method";

@@ -32,7 +32,7 @@ class HistoryData extends ChangeNotifier {
     try {
       final jsonMap = _history.map((item) => item.toJson()).toList();
       final jsonString = jsonEncode(jsonMap);
-      MethodChannel(method_channel_name)
+      MethodChannel(methodChannelName)
           .invokeMethod("write_history", jsonString);
     } catch (e) {
       print(e);
@@ -41,7 +41,7 @@ class HistoryData extends ChangeNotifier {
 
   Future<void> getHistoryMethod() async {
     try {
-      final jsonString = await const MethodChannel(method_channel_name)
+      final jsonString = await MethodChannel(methodChannelName)
           .invokeMethod("get_history");
       final json = jsonDecode(jsonString);
       _history.clear();

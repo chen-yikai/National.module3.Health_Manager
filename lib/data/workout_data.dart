@@ -57,7 +57,7 @@ class WorkOutData extends ChangeNotifier {
     try {
       final jsonMap = _workout_data.map((item) => item.toJson()).toList();
       final jsonString = jsonEncode(jsonMap);
-      await MethodChannel(method_channel_name)
+      await MethodChannel(methodChannelName)
           .invokeMethod("write_workout", jsonString);
     } catch (e) {
       print(e);
@@ -67,7 +67,7 @@ class WorkOutData extends ChangeNotifier {
   Future<void> getWorkoutMethod() async {
     try {
       final jsonString =
-          await MethodChannel(method_channel_name).invokeMethod("get_workout");
+          await MethodChannel(methodChannelName).invokeMethod("get_workout");
       final jsonMap = jsonDecode(jsonString);
       _workout_data =
           (jsonMap as List).map((item) => WorkOut.fromJson(item)).toList();

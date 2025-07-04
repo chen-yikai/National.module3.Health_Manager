@@ -3,7 +3,7 @@ import 'package:flutter_health_pre_test/data/share.dart';
 import 'package:flutter_health_pre_test/data/workout_data.dart';
 import 'package:flutter_health_pre_test/data/exercise_data.dart';
 
-void add_workout(BuildContext context) {
+void addWorkout(BuildContext context) {
   final nameController = TextEditingController();
   List<Exercise> selectedExercises = [];
   final exerciseData = ExerciseData();
@@ -22,7 +22,7 @@ void add_workout(BuildContext context) {
             ),
             child: Column(
               children: [
-                sheet_handle,
+                sheetHandle,
                 Text("New Workout", style: titleStyle),
                 const SizedBox(height: 20),
                 Expanded(

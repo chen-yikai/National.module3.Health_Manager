@@ -4,8 +4,7 @@ import 'package:flutter_health_pre_test/data/exercise_data.dart';
 import 'package:flutter_health_pre_test/data/workout_data.dart';
 import '../data/share.dart';
 
-void add_current_workout_exercise(BuildContext context, int id,
-    {Exercise? exercise, int? exerciseIndex}) {
+void addCurrentWorkoutExercise(BuildContext context, int id, {Exercise? exercise, int? exerciseIndex}) {
   int exerciseId = exercise != null
       ? ExerciseData()
           .exercise_data
@@ -33,7 +32,7 @@ void add_current_workout_exercise(BuildContext context, int id,
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
-              sheet_handle,
+              sheetHandle,
               Text(exercise != null ? "Edit Exercise" : "New Item",
                   style: titleStyle),
               const SizedBox(height: 20),
@@ -68,7 +67,7 @@ void add_current_workout_exercise(BuildContext context, int id,
                       const SizedBox(width: 10),
                       FilledButton.tonal(
                         onPressed: () {
-                          add_exercise(context);
+                          addExercise(context);
                         },
                         child: const Icon(Icons.add),
                       )
@@ -83,10 +82,8 @@ void add_current_workout_exercise(BuildContext context, int id,
                           decoration: InputDecoration(
                             labelText: "Time (Minutes)",
                             helperText: "Default is 30 minutes",
-                            hintText: exercise != null
-                                ? exercise.time.toString()
-                                : "30",
-                            border: OutlineInputBorder(
+                            hintText: exercise != null ? exercise.time.toString() : "30",
+                            border: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(20),
                               ),
@@ -94,7 +91,7 @@ void add_current_workout_exercise(BuildContext context, int id,
                           ),
                         ),
                       ),
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                       Expanded(
                         child: DropdownButtonFormField<int>(
                           value: levelId,
