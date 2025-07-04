@@ -4,6 +4,7 @@ import 'package:flutter_health_pre_test/action/add_workout.dart';
 import 'package:flutter_health_pre_test/screens/exercise_screen.dart';
 import 'package:flutter_health_pre_test/screens/history_screen.dart';
 import 'package:flutter_health_pre_test/screens/workout_screen.dart';
+import 'package:flutter_health_pre_test/widget/external_stopwatch_fab.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -97,13 +98,7 @@ class _EntryState extends State<Entry> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            add_workout(context);
-          },
-          label: const Text("New Workout"),
-          icon: const Icon(Icons.add),
-        ),
+        floatingActionButton: ExternalStopwatchFab(isRoot: true),
         body: Row(
           children: [
             NavigationRail(

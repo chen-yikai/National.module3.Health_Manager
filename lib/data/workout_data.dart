@@ -39,8 +39,12 @@ class WorkOutData extends ChangeNotifier {
   int _stopwatch_count = 0;
   int get stopwatch_count => _stopwatch_count;
 
-  void startStopWatch() {
+  int _current_id = -1;
+  int get current_id => _current_id;
+
+  void startStopWatch(int id) {
     _timerActive = true;
+    _current_id = id;
     notifyListeners();
     if (!_timerStarted) {
       _timerStarted = true;
@@ -62,6 +66,7 @@ class WorkOutData extends ChangeNotifier {
     _stopwatch.cancel();
     _timerStarted = false;
     _timerActive = false;
+    _current_id = -1;
     _stopwatch_count = 0;
     notifyListeners();
   }

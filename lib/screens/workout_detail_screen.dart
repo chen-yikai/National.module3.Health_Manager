@@ -3,6 +3,7 @@ import 'package:flutter_health_pre_test/action/add_current_workout_item.dart';
 import 'package:flutter_health_pre_test/action/edit_workout_exercise.dart';
 import 'package:flutter_health_pre_test/data/share.dart';
 import 'package:flutter_health_pre_test/data/workout_data.dart';
+import 'package:flutter_health_pre_test/widget/external_stopwatch_fab.dart';
 
 class WorkOutDetailScreen extends StatefulWidget {
   final int id;
@@ -97,25 +98,11 @@ class _WorkOutDetailScreenState extends State<WorkOutDetailScreen> {
                     onPressed: () {
                       add_current_workout_exercise(context, widget.id);
                     },
-                    icon: Icon(Icons.directions_run),
-                    label: Text("Add Item"),
+                    icon: const Icon(Icons.directions_run),
+                    label: const Text("Add Item"),
                   ),
-                  SizedBox(width: 20),
-                  FloatingActionButton.extended(
-                    onPressed: () {
-                      if (WorkOutData().timerStarted) {
-                        WorkOutData().pauseStopWatch();
-                      } else {
-                        WorkOutData().startStopWatch();
-                      }
-                    },
-                    icon: Icon(WorkOutData().stopwatch.isActive
-                        ? Icons.pause
-                        : Icons.play_arrow),
-                    label: Text(WorkOutData().timerActive
-                        ? timeFormatter(WorkOutData().stopwatch_count)
-                        : "Start Workout"),
-                  ),
+                  const SizedBox(width: 20),
+                  ExternalStopwatchFab(isRoot: false, id: widget.id)
                 ],
               ),
             );
