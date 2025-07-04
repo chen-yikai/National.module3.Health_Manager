@@ -4,11 +4,19 @@ import 'package:flutter_health_pre_test/data/exercise_data.dart';
 import 'package:flutter_health_pre_test/data/workout_data.dart';
 import '../data/share.dart';
 
-void add_current_workout_exercise(BuildContext context, int id) {
-  int exerciseId = 0;
-  int levelId = 3;
+void add_current_workout_exercise(BuildContext context, int id,
+    {Exercise? exercise, int? exerciseIndex}) {
+  int exerciseId = exercise != null
+      ? ExerciseData()
+          .exercise_data
+          .firstWhere((e) => e.name == exercise.name,
+              orElse: () => ExerciseData().exercise_data.first)
+          .id
+      : 0;
+  int levelId = exercise?.level ?? 3;
 
-  final timeController = TextEditingController();
+  final timeController =
+      TextEditingController(text: exercise?.time.toString() ?? '');
 
   List<ExerciseType> exercises = ExerciseData().exercise_data;
 
@@ -26,7 +34,8 @@ void add_current_workout_exercise(BuildContext context, int id) {
           child: Column(
             children: [
               sheet_handle,
-              Text("New Item", style: titleStyle),
+              Text(exercise != null ? "Edit Exercise" : "New Item",
+                  style: titleStyle),
               const SizedBox(height: 20),
               Column(
                 children: [
@@ -74,7 +83,9 @@ void add_current_workout_exercise(BuildContext context, int id) {
                           decoration: InputDecoration(
                             labelText: "Time (Minutes)",
                             helperText: "Default is 30 minutes",
-                            hintText: "30",
+                            hintText: exercise != null
+                                ? exercise.time.toString()
+                                : "30",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(20),
@@ -121,18 +132,37 @@ void add_current_workout_exercise(BuildContext context, int id) {
                       Expanded(
                         child: FilledButton(
                           onPressed: () {
-                            WorkOutData().addNewItemInWorkout(
-                                id,
-                                Exercise(
-                                    id: DateTime.now().millisecondsSinceEpoch,
-                                    name: ExerciseData()
-                                        .getExerciseById(exerciseId),
-                                    time:
-                                        int.tryParse(timeController.text) ?? 30,
-                                    level: levelId));
-                            Navigator.pop(context);
+                            final newExercise = Exercise(
+                                id: exercise?.id ??
+                                    DateTime.now().millisecondsSinceEpoch,
+                                name:
+                                    ExerciseData().getExerciseById(exerciseId),
+                                time: int.tryParse(timeController.text) ??
+                                    (exercise?.time ?? 30),
+                                level: levelId);
+
+                            if (exercise != null && exerciseIndex != null) {
+                              // Edit existing exercise
+                              WorkOut workOut = WorkOutData().getById(id);
+                              workOut.exercise[exerciseIndex] = newExercise;
+                              WorkOutData().updateRecord(workOut);
+
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content:
+                                      Text('Exercise updated successfully'),
+                                  backgroundColor: Colors.green,
+                                ),
+                              );
+                            } else {
+                              // Add new exercise
+                              WorkOutData()
+                                  .addNewItemInWorkout(id, newExercise);
+                              Navigator.pop(context);
+                            }
                           },
-                          child: const Text("Add"),
+                          child: Text(exercise != null ? "Save" : "Add"),
                         ),
                       ),
                     ],

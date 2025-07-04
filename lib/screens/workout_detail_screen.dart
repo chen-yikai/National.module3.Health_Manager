@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_health_pre_test/action/add_current_workout_item.dart';
-import 'package:flutter_health_pre_test/action/edit_workout_exercise.dart';
 import 'package:flutter_health_pre_test/data/history_data.dart';
 import 'package:flutter_health_pre_test/data/share.dart';
 import 'package:flutter_health_pre_test/data/workout_data.dart';
@@ -308,8 +307,7 @@ class _WorkOutDetailScreenState extends State<WorkOutDetailScreen> {
                                           confirmDismiss: (direction) async {
                                             if (direction ==
                                                 DismissDirection.startToEnd) {
-                                              edit_workout_exercise(exercise,
-                                                  workOut!, index, context);
+                                              add_current_workout_exercise(context, widget.id, exercise: exercise, exerciseIndex: index);
                                               return false;
                                             } else if (direction ==
                                                 DismissDirection.endToStart) {

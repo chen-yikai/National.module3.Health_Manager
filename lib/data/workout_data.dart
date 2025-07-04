@@ -72,8 +72,8 @@ class WorkOutData extends ChangeNotifier {
       _workout_data =
           (jsonMap as List).map((item) => WorkOut.fromJson(item)).toList();
     } catch (e) {
-      _workout_data.clear();
-      print(e);
+      _workout_data = [];
+      saveWorkoutMethod();
     }
     notifyListeners();
   }
@@ -116,11 +116,13 @@ class WorkOutData extends ChangeNotifier {
 
   void add(WorkOut item) {
     _workout_data.add(item);
+    saveWorkoutMethod();
     notifyListeners();
   }
 
   void removeAt(int id) {
     _workout_data.removeWhere((item) => item.id == id);
+    saveWorkoutMethod();
     notifyListeners();
   }
 
@@ -128,12 +130,14 @@ class WorkOutData extends ChangeNotifier {
     final index = _workout_data.indexWhere((item) => item.id == workout.id);
     if (index != -1) {
       _workout_data[index] = workout;
+      saveWorkoutMethod();
       notifyListeners();
     }
   }
 
   void addNewItemInWorkout(int id, Exercise exercise) {
     getById(id).exercise.add(exercise);
+    saveWorkoutMethod();
     notifyListeners();
   }
 

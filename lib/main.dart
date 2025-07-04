@@ -58,7 +58,7 @@ class _EntryState extends State<Entry> {
     Route(route: 'workout', label: 'Workout', icon: Icons.directions_run),
     Route(route: 'history', label: 'History', icon: Icons.history),
   ];
-  int _currentIndex = 0;
+  int _currentIndex = 1; // Start with workout index
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
   final List<String> _routeStack = ['workout'];
 
@@ -129,7 +129,7 @@ class _EntryState extends State<Entry> {
             Expanded(
               child: Navigator(
                 key: _navigatorKey,
-                initialRoute: routes[0].route,
+                initialRoute: 'workout', // Start with workout
                 onGenerateRoute: (RouteSettings settings) {
                   return MaterialPageRoute(
                     settings: settings,

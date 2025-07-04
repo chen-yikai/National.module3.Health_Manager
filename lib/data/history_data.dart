@@ -48,6 +48,7 @@ class HistoryData extends ChangeNotifier {
       _history.addAll((json as List).map((e) => History.fromJson(e)));
       notifyListeners();
     } catch (e) {
+      saveHistoryMethod();
       _history.clear();
     }
   }

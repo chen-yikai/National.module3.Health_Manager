@@ -138,13 +138,13 @@ class _WorkOutScreenState extends State<WorkOutScreen> {
                                         ],
                                       ),
                                       const SizedBox(height: 15),
-                                      Row(
+                                      Wrap(
+                                        spacing: 7,
+                                        runSpacing: 5,
                                         children: WorkOutData()
                                             .getContainExerciseOf(workout.id)
                                             .map(
                                               (item) => Container(
-                                                margin: const EdgeInsets.only(
-                                                    right: 7),
                                                 padding:
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 5,

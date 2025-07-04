@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 
 import '../data/workout_data.dart';
+import '../data/share.dart';
 
 void edit_workout_exercise(
     Exercise exercise, WorkOut workOut, int index, BuildContext context) {
   final nameController = TextEditingController(text: exercise.name);
   final timeController = TextEditingController(text: exercise.time.toString());
-  final levelController =
-      TextEditingController(text: exercise.level.toString());
+  final levelController = TextEditingController(text: exercise.level.toString());
 
-  showDialog(
+  showModalBottomSheet(
     context: context,
+    isScrollControlled: true,
     builder: (context) => StatefulBuilder(
-      builder: (BuildContext context, StateSetter setState) => AlertDialog(
-        title: const Text('Edit Exercise'),
-        content: SingleChildScrollView(
+      builder: (BuildContext context, StateSetter setState) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Text("Edit Exercise", style: titleStyle),
+              const SizedBox(height: 20),
               TextField(
                 controller: nameController,
                 decoration: InputDecoration(
@@ -49,37 +55,32 @@ void edit_workout_exercise(
                   ),
                 ),
               ),
+              const SizedBox(height: 20),
+              FilledButton(
+                onPressed: () {
+                  if (nameController.text.isNotEmpty) {
+                    workOut!.exercise[index] = Exercise(
+                      id: exercise.id,
+                      name: nameController.text.trim(),
+                      time: int.tryParse(timeController.text) ?? exercise.time,
+                      level: int.tryParse(levelController.text) ?? exercise.level,
+                    );
+                    WorkOutData().updateRecord(workOut);
+
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Exercise updated successfully'),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                  }
+                },
+                child: const Text('Save'),
+              ),
             ],
           ),
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (nameController.text.isNotEmpty) {
-                workOut!.exercise[index] = Exercise(
-                  id: exercise.id,
-                  name: nameController.text.trim(),
-                  time: int.tryParse(timeController.text) ?? exercise.time,
-                  level: int.tryParse(levelController.text) ?? exercise.level,
-                );
-                WorkOutData().updateRecord(workOut);
-
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Exercise updated successfully'),
-                    backgroundColor: Colors.green,
-                  ),
-                );
-              }
-            },
-            child: const Text('Save'),
-          ),
-        ],
       ),
     ),
   );
