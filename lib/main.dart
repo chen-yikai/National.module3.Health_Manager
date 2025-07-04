@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_health_pre_test/data/exercise_data.dart';
+import 'package:flutter_health_pre_test/data/history_data.dart';
+import 'package:flutter_health_pre_test/data/workout_data.dart';
 import 'package:flutter_health_pre_test/screens/exercise_screen.dart';
 import 'package:flutter_health_pre_test/screens/history_screen.dart';
+import 'package:flutter_health_pre_test/screens/profile_screen.dart';
+import 'package:flutter_health_pre_test/screens/workout_done.dart';
 import 'package:flutter_health_pre_test/screens/workout_screen.dart';
 import 'package:flutter_health_pre_test/widget/external_stopwatch_fab.dart';
 
@@ -24,8 +29,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Entry(),
+    return MaterialApp(
+      theme: ThemeData(useMaterial3: true),
+      home: const Entry(),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -48,20 +54,28 @@ class Entry extends StatefulWidget {
 
 class _EntryState extends State<Entry> {
   final List<Route> routes = [
-    Route(route: 'workout', label: 'WorkOut', icon: Icons.add_box),
-    Route(route: 'exercise', label: 'Exercise', icon: Icons.directions_run),
+    Route(route: 'profile', label: 'Profile', icon: Icons.person),
+    Route(route: 'workout', label: 'Workout', icon: Icons.directions_run),
     Route(route: 'history', label: 'History', icon: Icons.history),
   ];
   int _currentIndex = 0;
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
   final List<String> _routeStack = ['workout'];
 
+  @override
+  void initState() {
+    super.initState();
+    HistoryData();
+    ExerciseData();
+    WorkOutData();
+  }
+
   Widget _buildPage(String route) {
     switch (route) {
       case 'workout':
         return const WorkOutScreen();
-      case 'exercise':
-        return const ExerciseScreen();
+      case 'profile':
+        return const ProfileScreen();
       case 'history':
         return const HistoryScreen();
       default:

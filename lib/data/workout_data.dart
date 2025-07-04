@@ -1,14 +1,19 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_health_pre_test/data/history_data.dart';
+import 'package:flutter_health_pre_test/data/share.dart';
 
 class WorkOutData extends ChangeNotifier {
   static final WorkOutData _instance = WorkOutData._internal();
 
   factory WorkOutData() => _instance;
 
-  WorkOutData._internal();
+  WorkOutData._internal() {
+    getWorkoutMethod();
+  }
 
   List<WorkOut> _workout_data = [
     WorkOut(
@@ -47,6 +52,31 @@ class WorkOutData extends ChangeNotifier {
   int _current_id = -1;
 
   int get current_id => _current_id;
+
+  Future<void> saveWorkoutMethod() async {
+    try {
+      final jsonMap = _workout_data.map((item) => item.toJson()).toList();
+      final jsonString = jsonEncode(jsonMap);
+      await MethodChannel(method_channel_name)
+          .invokeMethod("write_workout", jsonString);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> getWorkoutMethod() async {
+    try {
+      final jsonString =
+          await MethodChannel(method_channel_name).invokeMethod("get_workout");
+      final jsonMap = jsonDecode(jsonString);
+      _workout_data =
+          (jsonMap as List).map((item) => WorkOut.fromJson(item)).toList();
+    } catch (e) {
+      _workout_data.clear();
+      print(e);
+    }
+    notifyListeners();
+  }
 
   void startStopWatch(int id) {
     _timerActive = true;
@@ -135,6 +165,16 @@ class WorkOut {
     required this.name,
     required this.exercise,
   });
+
+  factory WorkOut.fromJson(Map<String, dynamic> json) => WorkOut(
+      id: json['id'],
+      name: json['name'],
+      exercise: (json['exercise'] as List)
+          .map((item) => Exercise.fromJson(item))
+          .toList());
+
+  Map<String, dynamic> toJson() =>
+      {'id': id, 'name': name, 'exercise': exercise};
 }
 
 class Exercise {
@@ -148,4 +188,13 @@ class Exercise {
       required this.name,
       required this.time,
       required this.level});
+
+  factory Exercise.fromJson(Map<String, dynamic> json) => Exercise(
+      id: json['id'],
+      name: json['name'],
+      time: json['time'],
+      level: json['level']);
+
+  Map<String, dynamic> toJson() =>
+      {'id': id, 'name': name, 'time': time, 'level': level};
 }

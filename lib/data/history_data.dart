@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_health_pre_test/data/share.dart';
 import 'package:flutter_health_pre_test/data/workout_data.dart';
 
 class HistoryData extends ChangeNotifier {
@@ -6,7 +10,9 @@ class HistoryData extends ChangeNotifier {
 
   factory HistoryData() => _instance;
 
-  HistoryData._internal();
+  HistoryData._internal() {
+    getHistoryMethod();
+  }
 
   List<History> _history = [];
 
@@ -18,7 +24,32 @@ class HistoryData extends ChangeNotifier {
 
   void addCurrent() {
     _history.add(current_history);
+    saveHistoryMethod();
     notifyListeners();
+  }
+
+  void saveHistoryMethod() {
+    try {
+      final jsonMap = _history.map((item) => item.toJson()).toList();
+      final jsonString = jsonEncode(jsonMap);
+      MethodChannel(method_channel_name)
+          .invokeMethod("write_history", jsonString);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> getHistoryMethod() async {
+    try {
+      final jsonString = await const MethodChannel(method_channel_name)
+          .invokeMethod("get_history");
+      final json = jsonDecode(jsonString);
+      _history.clear();
+      _history.addAll((json as List).map((e) => History.fromJson(e)));
+      notifyListeners();
+    } catch (e) {
+      _history.clear();
+    }
   }
 
   History getHistoryById(int id) {
@@ -50,4 +81,22 @@ class History {
     required this.name,
     required this.data,
   });
+
+  factory History.fromJson(Map<String, dynamic> json) => History(
+        id: json['id'],
+        time: json['time'],
+        finishTime: json['finishTime'],
+        name: json['name'],
+        data: (json['data'] as List)
+            .map((data) => Exercise.fromJson(data))
+            .toList(),
+      );
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'time': time,
+        'finishTime': finishTime,
+        'name': name,
+        'data': data.map((data) => data.toJson()).toList()
+      };
 }

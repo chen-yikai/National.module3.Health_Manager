@@ -20,3 +20,5 @@ String timeFormatter(int seconds) {
   final ss = seconds % 60;
   return "${mm.toString().padLeft(2, '0')}:${ss.toString().padLeft(2, '0')}";
 }
+
+const method_channel_name = "com.example.flutter_health_pre_test/method";

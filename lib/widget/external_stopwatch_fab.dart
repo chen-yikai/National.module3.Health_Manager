@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_health_pre_test/action/add_workout.dart';
 import 'package:flutter_health_pre_test/data/history_data.dart';
 import 'package:flutter_health_pre_test/screens/workout_detail_screen.dart';
+import 'package:flutter_health_pre_test/screens/workout_done.dart';
 
 import '../data/share.dart';
 import '../data/workout_data.dart';
@@ -95,6 +96,9 @@ class _ExternalStopwatchFabState extends State<ExternalStopwatchFab> {
                       setState(() {
                         WorkOutData().resetStopWatch();
                       });
+                      Navigator.of(context, rootNavigator: true).push(
+                          MaterialPageRoute(
+                              builder: (context) => const WorkoutDone()));
                     },
                     backgroundColor: Colors.redAccent[100],
                     child: const Icon(Icons.stop_circle_outlined),
