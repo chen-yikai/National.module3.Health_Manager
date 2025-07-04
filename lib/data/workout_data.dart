@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_health_pre_test/data/history_data.dart';
 
 class WorkOutData extends ChangeNotifier {
   static final WorkOutData _instance = WorkOutData._internal();
@@ -28,18 +29,23 @@ class WorkOutData extends ChangeNotifier {
   List<WorkOut> get workout_data => _workout_data;
 
   Timer _stopwatch = Timer(Duration(seconds: 1), () {});
+
   Timer get stopwatch => _stopwatch;
 
   bool _timerStarted = false;
+
   bool get timerStarted => _timerStarted;
 
   bool _timerActive = false;
+
   bool get timerActive => _timerActive;
 
   int _stopwatch_count = 0;
+
   int get stopwatch_count => _stopwatch_count;
 
   int _current_id = -1;
+
   int get current_id => _current_id;
 
   void startStopWatch(int id) {
@@ -64,6 +70,12 @@ class WorkOutData extends ChangeNotifier {
 
   void resetStopWatch() {
     _stopwatch.cancel();
+    HistoryData().current_history.time = _stopwatch_count;
+    HistoryData().current_history.finishTime =
+        DateTime.now().millisecondsSinceEpoch;
+    HistoryData().addCurrent();
+    HistoryData().current_history =
+        History(id: 0, finishTime: 0, time: 0, name: "", data: []);
     _timerStarted = false;
     _timerActive = false;
     _current_id = -1;

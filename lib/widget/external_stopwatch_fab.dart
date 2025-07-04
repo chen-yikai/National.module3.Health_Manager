@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_health_pre_test/action/add_workout.dart';
+import 'package:flutter_health_pre_test/data/history_data.dart';
 import 'package:flutter_health_pre_test/screens/workout_detail_screen.dart';
 
 import '../data/share.dart';
@@ -29,47 +30,74 @@ class _ExternalStopwatchFabState extends State<ExternalStopwatchFab> {
                   onLongPress: () {
                     if (WorkOutData().timerActive) {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => WorkOutDetailScreen(
-                                  id: WorkOutData().current_id)));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              WorkOutDetailScreen(id: WorkOutData().current_id),
+                        ),
+                      );
                     }
                   },
-                  child: FloatingActionButton.extended(
-                    enableFeedback: true,
-                    onPressed: () {
-                      if (WorkOutData().timerStarted) {
-                        WorkOutData().pauseStopWatch();
-                      } else {
-                        if (widget.isRoot && !WorkOutData().timerActive) {
-                          add_workout(context);
+                  child: Hero(
+                    tag: 'workout-fab',
+                    child: FloatingActionButton.extended(
+                      heroTag: null,
+                      enableFeedback: true,
+                      backgroundColor:
+                          widget.isRoot ? null : Colors.greenAccent,
+                      onPressed: () {
+                        if (WorkOutData().timerStarted) {
+                          WorkOutData().pauseStopWatch();
                         } else {
-                          WorkOutData().startStopWatch(
-                              WorkOutData().current_id != -1
-                                  ? WorkOutData().current_id
-                                  : widget.id!);
+                          if (widget.isRoot && !WorkOutData().timerActive) {
+                            add_workout(context);
+                          } else {
+                            if (!HistoryData().current_history_init) {
+                              HistoryData().current_history_init = true;
+                              HistoryData().current_history = History(
+                                id: DateTime.now().millisecondsSinceEpoch,
+                                finishTime: 0,
+                                time: 0,
+                                name: WorkOutData().getById(widget.id!).name,
+                                data: [],
+                              );
+                            }
+                            WorkOutData().startStopWatch(
+                                WorkOutData().current_id != -1
+                                    ? WorkOutData().current_id
+                                    : widget.id!);
+                          }
                         }
-                      }
-                    },
-                    icon: Icon(WorkOutData().timerActive
-                        ? Icons.pause
-                        : widget.isRoot
-                            ? Icons.add
-                            : Icons.play_arrow),
-                    label: Text(WorkOutData().timerActive
-                        ? timeFormatter(WorkOutData().stopwatch_count)
-                        : widget.isRoot
-                            ? "New Workout"
-                            : "Start Workout"),
+                      },
+                      icon: Icon(WorkOutData().timerActive
+                          ? WorkOutData().timerStarted
+                              ? Icons.pause
+                              : Icons.play_arrow
+                          : widget.isRoot
+                              ? Icons.directions_run
+                              : Icons.play_arrow),
+                      label: Text(WorkOutData().timerActive
+                          ? timeFormatter(WorkOutData().stopwatch_count)
+                          : widget.isRoot
+                              ? "New Workout"
+                              : "Start Workout"),
+                    ),
                   ),
                 ),
                 if (!WorkOutData().timerStarted &&
                     WorkOutData().timerActive) ...[
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   FloatingActionButton.small(
-                    onPressed: () {},
-                    backgroundColor: Colors.redAccent.withAlpha(100),
-                    child: Icon(Icons.stop_circle_outlined),
+                    heroTag: widget.isRoot
+                        ? 'small-root-fab'
+                        : 'small-detail-fab-${widget.id}',
+                    onPressed: () {
+                      setState(() {
+                        WorkOutData().resetStopWatch();
+                      });
+                    },
+                    backgroundColor: Colors.redAccent[100],
+                    child: const Icon(Icons.stop_circle_outlined),
                   ),
                 ],
               ],

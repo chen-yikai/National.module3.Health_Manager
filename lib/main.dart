@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_health_pre_test/action/add_workout.dart';
 import 'package:flutter_health_pre_test/screens/exercise_screen.dart';
 import 'package:flutter_health_pre_test/screens/history_screen.dart';
 import 'package:flutter_health_pre_test/screens/workout_screen.dart';
@@ -50,7 +49,7 @@ class Entry extends StatefulWidget {
 class _EntryState extends State<Entry> {
   final List<Route> routes = [
     Route(route: 'workout', label: 'WorkOut', icon: Icons.add_box),
-    Route(route: 'exercise', label: 'Exercise', icon: Icons.fitness_center),
+    Route(route: 'exercise', label: 'Exercise', icon: Icons.directions_run),
     Route(route: 'history', label: 'History', icon: Icons.history),
   ];
   int _currentIndex = 0;
