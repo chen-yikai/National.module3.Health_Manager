@@ -76,6 +76,7 @@ class WorkOutData extends ChangeNotifier {
     HistoryData().addCurrent();
     HistoryData().current_history =
         History(id: 0, finishTime: 0, time: 0, name: "", data: []);
+    HistoryData().current_history_init = false;
     _timerStarted = false;
     _timerActive = false;
     _current_id = -1;
