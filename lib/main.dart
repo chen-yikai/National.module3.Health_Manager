@@ -61,7 +61,7 @@ class _EntryState extends State<Entry> {
       case 'workout':
         return const WorkOutScreen();
       case 'exercise':
-        return const Exercise();
+        return const ExerciseScreen();
       case 'history':
         return const HistoryScreen();
       default:
@@ -101,8 +101,8 @@ class _EntryState extends State<Entry> {
           onPressed: () {
             add_workout(context);
           },
-          label: Text("New Workout"),
-          icon: Icon(Icons.add),
+          label: const Text("New Workout"),
+          icon: const Icon(Icons.add),
         ),
         body: Row(
           children: [

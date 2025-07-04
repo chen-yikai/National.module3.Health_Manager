@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class WorkOutData extends ChangeNotifier {
@@ -7,9 +9,62 @@ class WorkOutData extends ChangeNotifier {
 
   WorkOutData._internal();
 
-  List<WorkOut> _workout_data = [];
+  List<WorkOut> _workout_data = [
+    WorkOut(
+      id: 20,
+      name: "Testing Workout",
+      exercise: [
+        Exercise(id: 0, name: "羽球", time: 5, level: 2),
+        Exercise(id: 1, name: "排球", time: 5, level: 2),
+        Exercise(id: 2, name: "桌球", time: 5, level: 2),
+        Exercise(id: 3, name: "網球", time: 5, level: 2),
+        Exercise(id: 6, name: "跑步", time: 5, level: 2),
+        Exercise(id: 4, name: "翻牆", time: 5, level: 5),
+        Exercise(id: 5, name: "育華", time: 5, level: 5),
+      ],
+    )
+  ];
 
   List<WorkOut> get workout_data => _workout_data;
+
+  Timer _stopwatch = Timer(Duration(seconds: 1), () {});
+  Timer get stopwatch => _stopwatch;
+
+  bool _timerStarted = false;
+  bool get timerStarted => _timerStarted;
+
+  bool _timerActive = false;
+  bool get timerActive => _timerActive;
+
+  int _stopwatch_count = 0;
+  int get stopwatch_count => _stopwatch_count;
+
+  void startStopWatch() {
+    _timerActive = true;
+    notifyListeners();
+    if (!_timerStarted) {
+      _timerStarted = true;
+      notifyListeners();
+      _stopwatch = Timer.periodic(const Duration(seconds: 1), (time) {
+        _stopwatch_count++;
+        notifyListeners();
+      });
+    }
+  }
+
+  void pauseStopWatch() {
+    _stopwatch.cancel();
+    _timerStarted = false;
+    notifyListeners();
+  }
+
+  void resetStopWatch() {
+    _stopwatch.cancel();
+    _timerStarted = false;
+    _timerActive = false;
+    _stopwatch_count = 0;
+    notifyListeners();
+  }
 
   void add(WorkOut item) {
     _workout_data.add(item);
@@ -27,6 +82,11 @@ class WorkOutData extends ChangeNotifier {
       _workout_data[index] = workout;
       notifyListeners();
     }
+  }
+
+  void addNewItemInWorkout(int id, Exercise exercise) {
+    getById(id).exercise.add(exercise);
+    notifyListeners();
   }
 
   WorkOut getById(int id) {

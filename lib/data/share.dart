@@ -14,3 +14,9 @@ Widget sheet_handle = Padding(
 );
 
 final double maxScreenWidth = 800;
+
+String timeFormatter(int seconds) {
+  final mm = seconds ~/ 60;
+  final ss = seconds % 60;
+  return "${mm.toString().padLeft(2, '0')}:${ss.toString().padLeft(2, '0')}";
+}

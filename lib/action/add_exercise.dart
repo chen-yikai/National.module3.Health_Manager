@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_health_pre_test/data/exercise_data.dart';
-import 'package:flutter_health_pre_test/data/share_style.dart';
+import 'package:flutter_health_pre_test/data/share.dart';
 
 void add_exercise(BuildContext context) {
   final nameController = TextEditingController();

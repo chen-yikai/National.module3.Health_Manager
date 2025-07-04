@@ -7,7 +7,18 @@ class ExerciseData extends ChangeNotifier {
 
   ExerciseData._internal();
 
-  List<String> default_exercise = ["羽球", "桌球", "跑步", "慢跑", "游泳", "舉重", "瑜伽", "伏地挺身", "仰臥起坐", "深蹲"];
+  List<String> default_exercise = [
+    "羽球",
+    "桌球",
+    "跑步",
+    "慢跑",
+    "游泳",
+    "舉重",
+    "瑜伽",
+    "伏地挺身",
+    "仰臥起坐",
+    "深蹲"
+  ];
   List<ExerciseType> _exercise_data = [
     ExerciseType(id: 0, name: "羽球"),
     ExerciseType(id: 1, name: "桌球"),
@@ -41,6 +52,10 @@ class ExerciseData extends ChangeNotifier {
   void deleteItem(int id) {
     _exercise_data.removeWhere((item) => item.id == id);
     notifyListeners();
+  }
+
+  String getExerciseById(int id) {
+    return _exercise_data.where((item) => item.id == id).first.name;
   }
 }
 
