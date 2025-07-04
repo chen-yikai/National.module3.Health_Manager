@@ -3,10 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_health_pre_test/data/exercise_data.dart';
 import 'package:flutter_health_pre_test/data/history_data.dart';
 import 'package:flutter_health_pre_test/data/workout_data.dart';
-import 'package:flutter_health_pre_test/screens/exercise_screen.dart';
 import 'package:flutter_health_pre_test/screens/history_screen.dart';
 import 'package:flutter_health_pre_test/screens/profile_screen.dart';
-import 'package:flutter_health_pre_test/screens/workout_done.dart';
 import 'package:flutter_health_pre_test/screens/workout_screen.dart';
 import 'package:flutter_health_pre_test/widget/external_stopwatch_fab.dart';
 
@@ -131,9 +129,25 @@ class _EntryState extends State<Entry> {
                 key: _navigatorKey,
                 initialRoute: 'workout', // Start with workout
                 onGenerateRoute: (RouteSettings settings) {
-                  return MaterialPageRoute(
+                  return PageRouteBuilder(
                     settings: settings,
-                    builder: (context) => _buildPage(settings.name!),
+                    pageBuilder: (context, animation, secondaryAnimation) => _buildPage(settings.name!),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      const begin = Offset(1.0, 0.0);
+                      const end = Offset.zero;
+                      const curve = Curves.easeInOut;
+
+                      var tween = Tween(begin: begin, end: end).chain(
+                        CurveTween(curve: curve),
+                      );
+
+                      return SlideTransition(
+                        position: animation.drive(tween),
+                        child: child,
+                      );
+                    },
+                    transitionDuration: const Duration(milliseconds: 250),
+                    reverseTransitionDuration: const Duration(milliseconds: 250),
                   );
                 },
               ),

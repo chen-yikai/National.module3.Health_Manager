@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_health_pre_test/data/workout_data.dart';
 import 'package:flutter_health_pre_test/screens/workout_detail_screen.dart';
+import 'package:flutter_health_pre_test/utils/page_transitions.dart';
 
 class WorkOutScreen extends StatefulWidget {
   const WorkOutScreen({super.key});
@@ -65,9 +66,8 @@ class _WorkOutScreenState extends State<WorkOutScreen> {
                             child: GestureDetector(
                               onTap: () {
                                 Navigator.of(context, rootNavigator: true).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        WorkOutDetailScreen(id: workout.id),
+                                  PageTransitions.slideTransition(
+                                    WorkOutDetailScreen(id: workout.id),
                                   ),
                                 );
                               },
